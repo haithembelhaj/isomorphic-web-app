@@ -1,0 +1,83 @@
+// TODO use a full blown SASS BEM for this
+// https://github.com/zgabievi/sass-bem
+
+$element-seperator: '--';
+$modifier-seperator: '.is-';
+
+$scope: null !global;
+$elem: null !global;
+$mod: null !global;
+
+
+@mixin component($name) {
+
+  .#{$name} {
+
+    $scope: & !global;
+
+    @content;
+  }
+
+  $scope: null !global;
+}
+
+@mixin module($name) {
+
+
+  .module-#{$name} {
+
+    $scope: & !global;
+
+    @content;
+  }
+
+  $scope: null !global;
+}
+
+
+@mixin elem($name) {
+
+  @if $elem {
+
+    @warn 'Elements cannot be nested within elements'
+  }
+
+  @if $mod {
+
+    #{$scope}#{$element-seperator}#{$name} {
+
+      $elem: & !global;
+
+      @content;
+    }
+
+   } @else {
+
+    @at-root {
+
+      #{$scope}#{$element-seperator}#{$name} {
+
+        $elem: & !global;
+
+        @content;
+      }
+    }
+  }
+
+  $elem: null !global;
+}
+
+@mixin mod($name) {
+
+  @at-root {
+
+    #{$scope}#{$modifier-seperator}#{$name} {
+
+      $mod: & !global;
+
+      @content;
+    }
+  }
+
+  $mod: null !global;
+}

@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+const cp = require('child_process');
+const _ = require('lodash');
+const path = require('path');
+const config = require('../lib/config');
+const compile = require('./compile');
+const chokidar = require('chokidar');
+const watcher = chokidar.watch(config.srcPath + '/**/*.?(js|jsx|scss)');
+
+
+console.log('watching for changes!');
+
+watcher.on('change', (filePath) => {
+
+  console.log(`File ${filePath} changed`);
+
+  const parsedPath = path.parse(filePath);
+  const ext = parsedPath.ext;
+  const isStyle = ext === '.scss';
+  const isScripts = ext === '.js' || ext === '.jsx';
+
+  compile({
+
+    view: 'index',
+    styles: isStyle,
+    scripts: isScripts
+  })
+});
+
+
+

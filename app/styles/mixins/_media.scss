@@ -1,0 +1,46 @@
+$bp-labels: map-keys($breakpoints);
+
+@mixin media ($from, $to: false) {
+
+  $string: '';
+  $min: false;
+  $max: false;
+  $start: index($bp-labels, $from);
+  $end: length($bp-labels);
+  $selector: &;
+
+
+  @if $from and not $to {
+
+    $breakpoint: map-get($breakpoints, $from);
+    $min: map-get($breakpoint, 'min');
+    $max: map-get($breakpoint, 'max');
+
+  } @else {
+
+    $breakpoint-from: map-get($breakpoints, $from);
+    $breakpoint-to: map-get($breakpoints, $to);
+
+    $min: map-get($breakpoint-from, 'min');
+    $max: map-get($breakpoint-to, 'max');
+    $end: index($bp-labels, $to);
+  }
+
+  @if $min and not $max {
+
+    $string: 'screen and (min-width: #{$min})';
+
+  } @else if $max and not $min {
+
+    $string: 'screen and (max-width: #{$max})';
+
+  } @else {
+
+    $string: 'screen and (min-width: #{$min}) and (max-width: #{$max})';
+  }
+
+  @media #{$string} {
+
+    @content;
+  }
+}

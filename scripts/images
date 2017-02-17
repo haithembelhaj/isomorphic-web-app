@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const imagemin = require('imagemin');
+const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminPngquant = require('imagemin-pngquant');
+const glob = require('glob');
+const sharp = require('sharp');
+
+const config = require(path.resolve(__dirname, '../lib/config'));
+
+// minify images image
+imagemin([`${config.srcPath}/assets/**/*.jpg`], `${config.destPath}/assets/images`, {
+  plugins: [
+    imageminMozjpeg({quality: 30}),
+    imageminPngquant({quality: '65-80'})
+  ]
+}).then(files => {
+  console.log(files.map(f=> f.path));
+});
+
+glob(`${config.srcPath}/assets/**/*.jpg`, (err, files)=> {
+
+  files.forEach((file) => {
+
+    const parsedPath = path.parse(file);
+
+    sharp(file)
+      .resize(3, 3)
+      .toFile(`${config.destPath}/assets/images/${parsedPath.name}-placeholder${parsedPath.ext}` , (err, info) => {
+        console.log(info);
+      });
+  })
+
+
+})

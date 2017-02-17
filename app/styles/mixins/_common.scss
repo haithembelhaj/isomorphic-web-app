@@ -1,0 +1,76 @@
+
+@mixin input-placeholder {
+
+  &.placeholder {
+
+    @content;
+  }
+
+  &:-moz-placeholder {
+
+    @content;
+  }
+
+  &::-moz-placeholder {
+
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+
+    @content;
+  }
+
+  &::-webkit-input-placeholder {
+
+    @content;
+  }
+}
+
+@mixin text-size-adjust($value: none) {
+
+  -webkit-text-size-adjust: $value;
+  -moz-text-size-adjust: $value;
+  text-size-adjust: $value;
+}
+
+@mixin tap-highlight-transparent() {
+
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  // -webkit-tap-highlight-color: transparent; // For some Androids
+}
+
+@mixin font-smoothing($font-smoothing) {
+
+  -webkit-font-smoothing: $font-smoothing;
+  font-smoothing: $font-smoothing;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin touch-callout($value: none) {
+
+  -webkit-touch-callout: $value;
+}
+
+@mixin smooth-scrolling {
+
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+
+    display: none !important;
+    width: 0 !important;
+  }
+}
+
+@mixin clearfix {
+
+  &:after {
+
+    content: "";
+    display: table;
+    clear: both;
+  }
+}

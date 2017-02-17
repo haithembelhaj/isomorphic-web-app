@@ -1,0 +1,42 @@
+body {
+
+  font-size: rem(18);
+}
+
+p {
+  margin: 0 0;
+}
+
+a {
+
+  color: inherit;
+}
+
+hr {
+  display: block;
+  border: none;
+  height: rem(2);
+  width: rem(60);
+  margin: 0 0 rem(48);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+  margin-top: 0;
+  margin-bottom: rem(0);
+  line-height: 1.1;
+}
+
+
+ul,
+ol {
+
+  margin-bottom: rem(48);
+  padding-left: 0;
+}
+

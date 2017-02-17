@@ -1,0 +1,10 @@
+
+@mixin ratio($r){
+
+  &:before {
+
+    content: '';
+    display: block;
+    padding-bottom: 1 / $r * 100%;
+  }
+}

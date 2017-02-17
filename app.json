@@ -1,0 +1,15 @@
+{
+  "apps" : [ {
+    "name": "web-app",
+    "script": "bin/www",
+    "watch": ["lib", "bin", "index.js", "app/**/*.jsx"],
+    "env": {
+      "NODE_ENV": "development",
+      "DISABLECACHE": "true",
+      "BABEL_DISABLE_CACHE": 1,
+      "DEBUG": "app"
+    },
+    "error_file"       : "logs/error.log",
+    "out_file"         : "logs/stdout.log"
+  }]
+}

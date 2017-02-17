@@ -1,0 +1,101 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const argv = require('optimist').argv;
+const Promise = require('bluebird');
+const Queue = require('bluebird-queue');
+const glob = require('glob');
+const dependencyTree = require('dependency-tree');
+const config = require(path.resolve(__dirname, '../lib/config'));
+const compile = require(path.resolve(__dirname, '../lib/assets')).compile;
+
+const componentFilenameServer = config.componentFilenameServer;
+const componentFilenameClient = config.componentFilenameClient;
+const componentFilenameStyles = config.componentFilenameStyles;
+
+// TODO generalise this
+const viewRegexp = /views\/(.*)\/template\.jsx/;
+
+// called directly
+if (require.main === module) {
+
+  const options = {
+
+    production: argv.production,
+    view: argv.view || '.',
+    scripts: argv.scripts,
+    styles: argv.styles
+  };
+
+  run(options).then(() => {
+
+    process.exit();
+  })
+}
+
+
+module.exports = run;
+
+/**
+ * the actual script
+ * @param options
+ * @returns {BlueBirdQueue}
+ */
+function run(options) {
+
+  return new Promise((resolve, reject) => {
+
+    // options is optional
+    glob(`${config.srcPath}/views/${options.view}/**/*.jsx`, function (err, files) {
+
+      // create a concurrent queue
+      const queue = new Queue({
+        concurrency: argv.concurrency || 1
+      });
+
+      queue.add(files.map((file) => compile.bind(null, getAssets(file, options), options)));
+
+      if(err) {
+
+        throw err;
+      }
+
+      queue
+        .start()
+        .then(resolve)
+        .catch(reject);
+    });
+  })
+}
+
+
+// get assets for the templates
+function getAssets(template, options) {
+
+  const assets = {
+
+    view: template.match(viewRegexp)[1]
+  };
+
+  // get the dependency tree for all required files
+  let deps = dependencyTree.toList({
+    filename: template,
+    directory: '/'
+  });
+
+  deps = deps.filter((file) => file.indexOf(componentFilenameServer) > -1 );
+
+  // map dependencies to scrips ans styles
+  if(options.scripts) {
+
+    assets.scripts = deps.map((file) => file.replace(componentFilenameServer, componentFilenameClient));
+  }
+
+  if(options.styles) {
+
+    assets.styles = deps.map((file) => file.replace(componentFilenameServer, componentFilenameStyles));
+  }
+
+  return assets;
+}
+

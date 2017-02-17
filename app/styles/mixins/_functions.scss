@@ -1,0 +1,20 @@
+
+@function rem($px) {
+
+  @return $px / 18 * 1rem;
+}
+
+@function em($px) {
+
+  @return $px / 16 * 1em;
+}
+
+@function getIndex($list, $index) {
+
+  @if length($list) >= $index {
+
+    @return nth($list, $index);
+  }
+
+  @return null;
+}

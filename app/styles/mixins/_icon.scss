@@ -1,0 +1,71 @@
+@mixin icon-style($name, $style){
+
+  $file: $name;
+  $style: $style;
+
+  background-image: svg($file + ".svg", $style);
+}
+
+@mixin icon-size($width, $height){
+
+  width: rem($width);
+  height: rem($height);
+  background-size: rem($width) rem($height);
+}
+
+@mixin icon($name, $args...){
+
+  $file: getIndex($args, 1);
+  $width: getIndex($args, 2);
+  $height: getIndex($args, 3);
+  $style: getIndex($args, 4);
+
+  @if type-of($file) == number {
+
+    $style: $height;
+    $height: $width;
+    $width: $file;
+    $file: $name;
+  }
+
+  %icon-#{$name}{
+
+    @include icon-size($width, $height);
+
+    display: inline-block;
+    background-image: svg($file + '.svg', $style);
+    background-position: center;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    line-height: 0;
+  }
+
+  .icon-#{$name}{
+
+    @extend %icon-#{$name};
+  }
+}
+
+@mixin icon-inline($name, $args...){
+
+  $file: getIndex($args, 1);
+  $width: getIndex($args, 2);
+  $height: getIndex($args, 3);
+  $style: getIndex($args, 4);
+
+  @if type-of($file) == number {
+
+    $style: $height;
+    $height: $width;
+    $width: $file;
+    $file: $name;
+  }
+
+  @include icon-size($width, $height);
+
+  display: inline-block;
+  background-image: svg($file + ".svg", $style);
+  background-position: center;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}

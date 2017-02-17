@@ -1,0 +1,28 @@
+$container-max-width: rem(1380);
+
+$namespace: 'g';
+$modifier: '\\@';
+
+$breakpoints: (
+  s: (
+    min: 0,
+    max: 699px,
+    containerSize: rem(280),
+    columnGutter: rem(10),
+    containerGutter: rem(10)
+  ),
+  m: (
+    min: 700px,
+    max: 1000px,
+    containerSize: rem(660),
+    columnGutter: rem(20),
+    containerGutter: rem(20)
+  ),
+  l: (
+    min: 1000px,
+    max: null,
+    containerSize: 960px,
+    columnGutter: rem(20),
+    containerGutter: rem(20)
+  )
+);

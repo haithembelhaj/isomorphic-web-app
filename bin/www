@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+'use strict';
+
+const path = require('path');
+const app = require(path.resolve(__dirname, '../index'));
+
+app.set('port', process.env.PORT || 3000);
+
+const server = app.listen(app.get('port'),  () => {
+  
+  console.log('webapp is listening on port ' + server.address().port);
+});
+
+
+
+
+

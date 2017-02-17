@@ -1,0 +1,204 @@
+/**
+ * Super Mega Grid Generator
+ * @author: hb@dietaikonauten.com
+ **/
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.row {
+
+  @include clearfix;
+}
+
+$length: length($breakpoints);
+
+
+@each $breakpoint, $map in $breakpoints {
+
+  // $index: index($breakpoints, $breakpoint);
+  $min-query: map-get($map, min);
+  $max-query: map-get($map, max);
+  $container-size: map-get($map, containerSize);
+  $container-gutter: map-get($map, containerGutter);
+  $column-gutter: map-get($map, columnGutter);
+
+  $query: "screen and (min-width: #{$min-query})";
+
+  @if $max-query {
+
+    $query: "screen and (min-width: #{$min-query}) and (max-width: #{$max-query})";
+  }
+
+
+  // fake animation event for breakpoint change
+  @keyframes breakpoint-#{$breakpoint} {
+    from { clip: rect(1px, auto, auto, auto); }
+    to { clip: rect(0px, auto, auto, auto); }
+  }
+
+  @include media($breakpoint) {
+
+    // invisible animation
+    body {
+      animation-name: breakpoint-#{$breakpoint};
+    }
+
+    .container#{$modifier}#{$breakpoint} {
+
+      width: $container-size;
+      padding-left: $container-gutter / 2;
+      padding-right: $container-gutter / 2;
+    }
+
+    .row#{$modifier}#{$breakpoint} {
+
+      @include clearfix;
+      margin-left: -($column-gutter / 2);
+      margin-right: -($column-gutter / 2);
+    }
+
+    .hide#{$modifier}#{$breakpoint}{
+
+      display: none;
+    }
+  }
+
+
+  @media #{$query}{
+
+    .container {
+
+      max-width: $container-size;
+      padding-left: $container-gutter / 2;
+      padding-right: $container-gutter / 2;
+    }
+
+    .row {
+
+      margin-left: -($column-gutter / 2);
+      margin-right: -($column-gutter / 2);
+    }
+
+    @for $i from 0 through 12 {
+
+      $size: $i * (100% / 12);
+
+
+      .#{$namespace}-#{$i} {
+
+        position: relative;
+        float: left;
+        width: $size;
+        padding-left: $column-gutter / 2;
+        padding-right: $column-gutter / 2;
+        min-height: 1px;
+      }
+
+      .#{$namespace}-offset-#{$i} {
+
+        margin-left: $size;
+      }
+
+      .#{$namespace}-pull-#{$i} {
+
+        right: $size;
+      }
+
+      .#{$namespace}-push-#{$i} {
+
+        left: 100% - $size;
+      }
+    }
+
+    @for $i from 0 through 12 {
+
+      $size: $i * (100% / 12);
+
+      .#{$namespace}-#{$i}#{$modifier}#{$breakpoint} {
+
+        position: relative;
+        float: left;
+        width: $size;
+        padding-left: $column-gutter / 2;
+        padding-right: $column-gutter / 2;
+        min-height: 1px;
+      }
+
+      .#{$namespace}-offset-#{$i}#{$modifier}#{$breakpoint} {
+
+        margin-left: $size;
+      }
+
+      .#{$namespace}-pull-#{$i}#{$modifier}#{$breakpoint} {
+
+        right: $size;
+      }
+
+      .#{$namespace}-push-#{$i}#{$modifier}#{$breakpoint} {
+
+        left: 100% - $size;
+      }
+    }
+
+    .row--flex,
+    .row--flex-nowrap,
+    .row--flex-block {
+
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      &.row:before,
+      &.row:after{
+
+        display: none;
+      }
+
+      [class*="#{$namespace}-"] {
+
+        flex-grow: 0;
+        flex-shrink: 0;
+        float: none;
+      }
+    }
+
+    .row--flex-block {
+
+      width: calc(100% + 1.2rem);
+    }
+
+    .row--flex-nowrap {
+
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+  }
+}
+
+
+// usefull for breakpont change events
+body {
+  animation-duration: 0.001s;
+}
+
+
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after {
+  content: " ";
+  display: table;
+}
+
+.container:after,
+.container-fluid:after,
+.row:after {
+  clear: both;
+}

@@ -1,0 +1,44 @@
+@function column-width($bp) {
+
+  $breakpoint: map-get($breakpoints, $bp);
+  $containerSize: map-get($breakpoint, containerSize);
+
+  @return #{$containerSize} / 12;
+}
+
+@function column-gutter($bp) {
+
+  $breakpoint: map-get($breakpoints, $bp);
+
+  @return map-get($breakpoint, columnGutter);
+}
+
+
+@mixin grid($column, $bp) {
+
+  $breakpoint: map-get($breakpoints, $bp);
+  $containerSize: map-get($breakpoint, containerSize);
+
+  $width: calc(#{$containerSize} * #{$column} / 12);
+  $gutter: column-gutter($bp) / 2;
+
+  position: relative;
+  float: left;
+  width: $width;
+  padding-left: $gutter;
+  padding-right: $gutter;
+  min-height: 1px;
+}
+
+@mixin container($bp) {
+
+  $breakpoint: map-get($breakpoints, $bp);
+  $containerSize: map-get($breakpoint, containerSize);
+  $gutter: column-gutter($bp) / 2;
+
+  width: $containerSize;
+  padding-left: $gutter;
+  padding-right: $gutter;
+  margin-left: auto;
+  margin-right: auto;
+}

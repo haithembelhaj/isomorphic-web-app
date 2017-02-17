@@ -1,0 +1,21 @@
+
+@mixin hover {
+
+  html.is-mobile-safari &,
+  html.no-touchevents & {
+
+    &:hover {
+
+      @content;
+    }
+  }
+
+}
+
+@mixin touch {
+
+  html.touchevents & {
+
+    @content;
+  }
+}
