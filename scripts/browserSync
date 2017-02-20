@@ -6,8 +6,10 @@ const bs = require('browser-sync').create();
 bs.init({
   files: [config.destPath + '/scripts/*.js', config.destPath + '/styles/*.css'],
   serveStatic: [config.destPath],
-  proxy: 'localhost:3000',
+  proxy: '0.0.0.0:3000',
+  port: 3001,
   notify: false,
+  open: false,
   ghostMode: {
       clicks: false,
       forms: false,

@@ -13,16 +13,10 @@ So buckle up and hold on tight :)
 ## Getting started
 First of all you have to install [Docker](https://docs.docker.com/) and [nodejs](https://nodejs.org/en/) on your maschine.
 
-### Start the server locally
+### Start the docker server
 To start the server just run on the root `docker-compose build` and then `docker-compose up`.
-This could take a while.
-
-### Build the assets locally
-To build the assets locally you have to first install all the neccessery npm modules.
-So first run `npm install` and then `npm run compile`.
-
-for a better workflow with automatic browser syncing, there is this óther intresting script `npm run dev`.
-This will start a watch task for the assets and browserSync.
+This will start a development server with [browserSync](https://browsersync.io/) and file watching.
+Navigate to http://localhost:3001 to see the result.
 
 ## Project Structure
 
@@ -81,4 +75,4 @@ To ease the workflow, I wrote some useful scripts:
 - compile: compiles a production build of all the assets.
 - dev: watches assets for changes and start [browserSync](https://browsersync.io/) 
 
-For a better understnding take a look at `package.json` and the `scripts` folder.
+For a better understanding take a look at `package.json` and the `scripts` folder.

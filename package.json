@@ -14,7 +14,7 @@
     "render": "BABEL_DISABLE_CACHE=1 ./scripts/render --view index",
     "lighthouse": "lighthouse http://localhost:3000",
     "compile": "npm run assets:copy && npm run assets:images && npm run assets:compile",
-    "dev": "npm run assets:copy & npm run assets:images & npm run assets:compile & npm run watch & npm run browserSync"
+    "dev": "npm run compile && npm run start & npm run watch & npm run browserSync"
   },
   "author": "Haithem Bel Haj <haythem.belhaj@gmail.com> (http://haithembelhaj.github.io)",
   "license": "ISC",
